@@ -74,19 +74,22 @@ class App extends Component {
 
     const faces = [];
 
-    for (let i = 0; i < data.outputs[0].data.regions.length; i++) {
-      const clarifaiFace =
-        data.outputs[0].data.regions[i].region_info.bounding_box;
+    if (Object.entries(data.outputs[0].data).length === 0) {
+      return faces;
+    } else {
+      for (let i = 0; i < data.outputs[0].data.regions.length; i++) {
+        const clarifaiFace =
+          data.outputs[0].data.regions[i].region_info.bounding_box;
 
-      faces.push({
-        leftCol: clarifaiFace.left_col * width,
-        topRow: clarifaiFace.top_row * height,
-        rightCol: width - clarifaiFace.right_col * width,
-        bottomRow: height - clarifaiFace.bottom_row * height
-      });
+        faces.push({
+          leftCol: clarifaiFace.left_col * width,
+          topRow: clarifaiFace.top_row * height,
+          rightCol: width - clarifaiFace.right_col * width,
+          bottomRow: height - clarifaiFace.bottom_row * height
+        });
+      }
+      return faces;
     }
-
-    return faces;
   };
 
   displayFaceBox = newBox => {
@@ -100,13 +103,13 @@ class App extends Component {
   onButtonSubmit = e => {
     e.preventDefault();
     this.setState({ imageUrl: this.state.input });
-      fetch('https://young-oasis-92479.herokuapp.com/imageurl', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          input: this.state.input
-        })
+    fetch('https://young-oasis-92479.herokuapp.com/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
       })
+    })
       .then(response => response.json())
       .then(response => {
         if (response) {
