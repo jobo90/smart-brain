@@ -102,7 +102,7 @@ class App extends Component {
 
   onButtonSubmit = e => {
     e.preventDefault();
-    this.setState({ imageUrl: this.state.input });
+    this.setState({ imageUrl: this.state.input, box: [] });
     fetch('https://young-oasis-92479.herokuapp.com/imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
