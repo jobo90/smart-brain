@@ -16,7 +16,10 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
         >
           <input
             className="f4 pa2 w-70 center"
-            type="text"
+            type="url"
+            pattern="https?://.+"
+            title="Please use a valid URL"
+            required
             onChange={onInputChange}
           />
           <button

@@ -140,7 +140,7 @@ class App extends Component {
           }
           this.displayFaceBox(this.calculateFaceLocation(response));
         })
-        .catch(err => console.log(err));
+        .catch(err => this.setState({error: 'The image could not be retrieved'}));
     } else {
       this.setState({ error: 'Please provide a valid image URL' });
     }
