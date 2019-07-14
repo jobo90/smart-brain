@@ -10,6 +10,7 @@ class Register extends React.Component {
     };
   }
 
+  // Setting the state of email, password and name upon user entering values in each field
   onEmailChange = event => {
     this.setState({ email: event.target.value });
   };
@@ -24,6 +25,7 @@ class Register extends React.Component {
 
   onSubmitRegister = e => {
     e.preventDefault();
+    // Sending the data to the backend
     fetch('https://young-oasis-92479.herokuapp.com/register', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -33,6 +35,7 @@ class Register extends React.Component {
         name: this.state.name
       })
     })
+      // Update user information in App.js and change route to home
       .then(response => response.json())
       .then(user => {
         if (user.id) {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
+  // If the user is signed in, show the Sign Out button in the menu
   if (isSignedIn) {
     return (
       <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -12,6 +13,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
         </p>
       </nav>
     );
+    // else show the Sign In or Register button
   } else {
     return (
       <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>

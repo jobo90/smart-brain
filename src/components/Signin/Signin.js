@@ -19,6 +19,7 @@ class Signin extends React.Component {
 
   onSubmitSignin = e => {
     e.preventDefault();
+    // Sending the data to the backend
     fetch('https://young-oasis-92479.herokuapp.com/signin', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -27,6 +28,7 @@ class Signin extends React.Component {
         password: this.state.signInPassword
       })
     })
+      // Update user information in App.js and change route to home
       .then(response => response.json())
       .then(user => {
         if (user.id) {
