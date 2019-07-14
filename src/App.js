@@ -24,6 +24,7 @@ const particlesOptions = {
 const initialState = {
   input: '',
   imageUrl: '',
+  error: '',
   box: [],
   route: 'signin',
   isSignedIn: false,
@@ -42,6 +43,7 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
+      error: '',
       box: [],
       route: 'signin',
       isSignedIn: false,
@@ -100,35 +102,48 @@ class App extends Component {
     this.setState({ input: event.target.value });
   };
 
+  checkURL = url => {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  };
+
   onButtonSubmit = e => {
     e.preventDefault();
-    this.setState({ imageUrl: this.state.input, box: [] });
-    fetch('https://young-oasis-92479.herokuapp.com/imageurl', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        input: this.state.input
+
+    this.setState({ imageUrl: this.state.input, box: [], error: '' });
+    const isImage = this.checkURL(this.state.input);
+
+    if (isImage) {
+      fetch('https://young-oasis-92479.herokuapp.com/imageurl', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          input: this.state.input
+        })
       })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch('https://young-oasis-92479.herokuapp.com/image', {
-            method: 'put',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: this.state.user.id
+        .then(response => response.json())
+        .then(response => {
+          if (response) {
+            fetch('https://young-oasis-92479.herokuapp.com/image', {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: this.state.user.id
+              })
             })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count }));
-            })
-            .catch(console.log);
-        }
-        this.displayFaceBox(this.calculateFaceLocation(response));
-      })
-      .catch(err => console.log(err));
+              .then(response => response.json())
+              .then(count => {
+                this.setState(
+                  Object.assign(this.state.user, { entries: count })
+                );
+              })
+              .catch(console.log);
+          }
+          this.displayFaceBox(this.calculateFaceLocation(response));
+        })
+        .catch(err => console.log(err));
+    } else {
+      this.setState({ error: 'Please provide a valid image URL' });
+    }
   };
 
   onRouteChange = route => {
@@ -160,7 +175,11 @@ class App extends Component {
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
             />
-            <FaceRecognition box={box} imageUrl={imageUrl} />
+            <FaceRecognition
+              box={box}
+              imageUrl={imageUrl}
+              error={this.state.error}
+            />
           </div>
         ) : route === 'signin' || route === 'signout' ? (
           <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />

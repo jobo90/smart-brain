@@ -1,10 +1,11 @@
 import React from 'react';
 import './FaceRecognition.css';
 
-const FaceRecognition = ({ imageUrl, box }) => {
+const FaceRecognition = ({ imageUrl, box, error }) => {
   return (
     <div className="center ma">
       <div className="absolute mt2">
+        {error && <p>{error}</p>}
         <img
           id="inputImage"
           alt=""
