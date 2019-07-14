@@ -1,0 +1,14 @@
+.form {
+  width: 700px;
+  background: radial-gradient(rgb(64, 66, 68) 15%, transparent 16%) 0 0,
+    radial-gradient(rgb(64, 66, 68) 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(209, 234, 255, 0.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(209, 234, 255, 0.1) 15%, transparent 20%) 8px 9px;
+  background-color: #2e3d49;
+  background-size: 16px 16px;
+}
+
+.form button {
+  background-color: #274c91;
+  border-color: rgb(53, 100, 187);
+}
